@@ -1,0 +1,12 @@
+apiVersion: partition.kube-pangu.io/v1
+kind: PartitionConfig
+metadata:
+  labels:
+    app.kubernetes.io/name: partitionconfig
+    app.kubernetes.io/instance: partitionconfig-sample
+    app.kubernetes.io/part-of: kube-pangu
+    app.kuberentes.io/managed-by: kustomize
+    app.kubernetes.io/created-by: kube-pangu
+  name: partitionconfig-sample
+spec:
+  # TODO(user): Add fields here

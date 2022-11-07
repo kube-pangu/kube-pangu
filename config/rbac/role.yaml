@@ -1,0 +1,33 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: manager-role
+rules:
+- apiGroups:
+  - partition.kube-pangu.io
+  resources:
+  - partitionconfigs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - partition.kube-pangu.io
+  resources:
+  - partitionconfigs/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - partition.kube-pangu.io
+  resources:
+  - partitionconfigs/status
+  verbs:
+  - get
+  - patch
+  - update

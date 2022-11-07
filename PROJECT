@@ -1,0 +1,24 @@
+domain: kube-pangu.io
+layout:
+- go.kubebuilder.io/v3
+projectName: kube-pangu
+repo: github.com/kube-pangu/kube-pangu
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: kube-pangu.io
+  group: partition
+  kind: PartitionConfig
+  path: github.com/kube-pangu/kube-pangu/api/v1
+  version: v1
+- api:
+    crdVersion: v1
+    namespaced: true
+  domain: kube-pangu.io
+  group: partition
+  kind: PartitionNode
+  path: github.com/kube-pangu/kube-pangu/api/v1
+  version: v1
+version: "3"
