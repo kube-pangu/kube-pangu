@@ -18,49 +18,6 @@ func TestPartitionShouldSucceedWithNoPartitionNodes(t *testing.T) {
 	}
 }
 
-func TestAllResourcesShouldBeAssignedToOnlyPartition(t *testing.T) {
-	resourceClient := &inMemoryResourceClient{
-		resources: []models.Resource{
-			&inMemoryResource{
-				partitionKeyForPartitioner: map[string]string{
-					"1": "key1",
-				},
-				ownerNodeForPartitioner: map[string]string{},
-			},
-			&inMemoryResource{
-				partitionKeyForPartitioner: map[string]string{
-					"1": "key2",
-				},
-				ownerNodeForPartitioner: map[string]string{},
-			},
-		},
-	}
-	chPartitioner := NewConsistentHashPartitioner("1", resourceClient, murmur3HashFunc)
-	err := chPartitioner.DoPartition()
-	if err != nil {
-		t.Error("Error should not be nil")
-	}
-
-	chPartitioner.AddPartition(&inMemoryPartitionNode{
-		id:    "partition1",
-		seeds: []uint64{10000},
-	})
-
-	err = chPartitioner.DoPartition()
-
-	if _, partitionName := resourceClient.QueryResources()[0].GetOwnerNodeForPartitionerId("1"); partitionName != "partition1" {
-		t.Error("The first resource should belong to partition1")
-	}
-
-	if _, partitionName := resourceClient.QueryResources()[1].GetOwnerNodeForPartitionerId("1"); partitionName != "partition1" {
-		t.Error("The first resource should belong to partition1")
-	}
-
-	if err != nil {
-		t.Error("Error should not be nil")
-	}
-}
-
 func TestMultipleResourcesWithMultiplePartitionsAndMultipleSeeds(t *testing.T) {
 	hashFunc := func(k string) uint64 {
 		lookup := map[string]uint64{

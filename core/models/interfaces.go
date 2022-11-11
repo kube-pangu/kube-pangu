@@ -12,7 +12,7 @@ type Resource interface {
 }
 
 type ResourcesClient interface {
-	QueryResources() []Resource
+	QueryResources() ([]Resource, error)
 }
 
 type Partitioner interface {

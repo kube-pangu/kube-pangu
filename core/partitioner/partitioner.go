@@ -47,7 +47,10 @@ func (p *ConsistentHashPartitioner) DoPartition() error {
 
 	sort.Slice(allSeeds, func(i, j int) bool { return allSeeds[i] < allSeeds[j] })
 
-	resources := p.resourceClient.QueryResources()
+	resources, err := p.resourceClient.QueryResources()
+	if err != nil {
+		return err
+	}
 
 	for _, resource := range resources {
 		err, partitionKey := resource.GetResourcePartitionKeyForPartitionerId(p.partitionerId)

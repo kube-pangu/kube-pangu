@@ -6,8 +6,8 @@ type inMemoryResourceClient struct {
 	resources []models.Resource
 }
 
-func (i *inMemoryResourceClient) QueryResources() []models.Resource {
-	return i.resources
+func (i *inMemoryResourceClient) QueryResources() ([]models.Resource, error) {
+	return i.resources, nil
 }
 
 var _ models.ResourcesClient = &inMemoryResourceClient{}
