@@ -11,18 +11,19 @@ type inMemoryResource struct {
 	setOwnerCount              int
 }
 
-func (i *inMemoryResource) SetOwnerNodeForPartitionerId(s string, s2 string) {
+func (i *inMemoryResource) SetOwnerNodeForPartitionerId(s string, s2 string) error {
 	i.ownerNodeForPartitioner[s] = s2
 	i.setOwnerCount = i.setOwnerCount + 1
+	return nil
 }
 
-func (i *inMemoryResource) GetOwnerNodeForPartitionerId(s string) (error, string) {
+func (i *inMemoryResource) GetOwnerNodeForPartitionerId(s string) string {
 	id, ok := i.ownerNodeForPartitioner[s]
 	if !ok {
-		return fmt.Errorf("PartitionerId not found"), ""
+		return ""
 	}
 
-	return nil, id
+	return id
 }
 
 func (i *inMemoryResource) GetResourcePartitionKeyForPartitionerId(partitionerId string) (error, string) {

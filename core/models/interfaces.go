@@ -7,8 +7,8 @@ type PartitionNode interface {
 
 type Resource interface {
 	GetResourcePartitionKeyForPartitionerId(string) (error, string)
-	SetOwnerNodeForPartitionerId(string, string)
-	GetOwnerNodeForPartitionerId(string) (error, string)
+	SetOwnerNodeForPartitionerId(string, string) error
+	GetOwnerNodeForPartitionerId(string) string
 }
 
 type ResourcesClient interface {

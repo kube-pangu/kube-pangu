@@ -71,22 +71,34 @@ func TestResource(t *testing.T) {
 	dynamicClient, err := dynamic.NewForConfig(kubeConfig)
 
 	createTestAndDeleteResource(t, kubeConfig, dynamicClient, testConfigMapResourceWithoutAnnotations, func(u *unstructured.Unstructured) {
-		resource := kubepartitioner.NewKubeResource(*u)
+		resource := kubepartitioner.NewKubeResource(u, kubeConfig, dynamicClient)
 		err, _ := resource.GetResourcePartitionKeyForPartitionerId("1234")
 		shouldNotBeNil(t, err)
 	})
 
 	createTestAndDeleteResource(t, kubeConfig, dynamicClient, testConfigMapResourceWithSomeAnnotation, func(u *unstructured.Unstructured) {
-		resource := kubepartitioner.NewKubeResource(*u)
+		resource := kubepartitioner.NewKubeResource(u, kubeConfig, dynamicClient)
 		err, _ := resource.GetResourcePartitionKeyForPartitionerId("1234")
 		shouldNotBeNil(t, err)
 	})
 
 	createTestAndDeleteResource(t, kubeConfig, dynamicClient, testConfigMapResourceWithPartitionAnnotation, func(u *unstructured.Unstructured) {
-		resource := kubepartitioner.NewKubeResource(*u)
+		resource := kubepartitioner.NewKubeResource(u, kubeConfig, dynamicClient)
 		err, key := resource.GetResourcePartitionKeyForPartitionerId("1234")
 		shouldBeNil(t, err)
 		shouldBeTrue(t, key == "pkey")
+	})
+
+	createTestAndDeleteResource(t, kubeConfig, dynamicClient, testConfigMapResourceWithPartitionAnnotation, func(u *unstructured.Unstructured) {
+		resource := kubepartitioner.NewKubeResource(u, kubeConfig, dynamicClient)
+		ownerId := resource.GetOwnerNodeForPartitionerId("1234")
+		shouldBeTrue(t, ownerId == "")
+
+		err := resource.SetOwnerNodeForPartitionerId("1234", "owner1")
+		shouldBeNil(t, err)
+
+		ownerId = resource.GetOwnerNodeForPartitionerId("1234")
+		shouldBeTrue(t, ownerId == "owner1")
 	})
 }
 

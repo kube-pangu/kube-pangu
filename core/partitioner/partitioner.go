@@ -63,8 +63,8 @@ func (p *ConsistentHashPartitioner) DoPartition() error {
 		for i := 0; i < len(allSeeds)-1; i++ {
 			if point >= allSeeds[i] && point < allSeeds[i+1] {
 				partitionAssigned = true
-				err, ownerId := resource.GetOwnerNodeForPartitionerId(p.partitionerId)
-				if err != nil {
+				ownerId := resource.GetOwnerNodeForPartitionerId(p.partitionerId)
+				if ownerId == "" {
 					resource.SetOwnerNodeForPartitionerId(p.partitionerId, seedNodeMapper[allSeeds[i]].GetId())
 				} else if ownerId != seedNodeMapper[allSeeds[i]].GetId() {
 					resource.SetOwnerNodeForPartitionerId(p.partitionerId, seedNodeMapper[allSeeds[i]].GetId())
@@ -75,8 +75,8 @@ func (p *ConsistentHashPartitioner) DoPartition() error {
 		}
 
 		if !partitionAssigned {
-			err, ownerId := resource.GetOwnerNodeForPartitionerId(p.partitionerId)
-			if err != nil {
+			ownerId := resource.GetOwnerNodeForPartitionerId(p.partitionerId)
+			if ownerId == "" {
 				resource.SetOwnerNodeForPartitionerId(p.partitionerId, seedNodeMapper[allSeeds[len(allSeeds)-1]].GetId())
 			} else if ownerId != seedNodeMapper[allSeeds[len(allSeeds)-1]].GetId() {
 				resource.SetOwnerNodeForPartitionerId(p.partitionerId, seedNodeMapper[allSeeds[len(allSeeds)-1]].GetId())

@@ -130,8 +130,7 @@ func assignCallsMustMatch(t *testing.T, partitionerId string, resources []models
 
 func assignedPartitionsMustMatch(t *testing.T, partitionerId string, resources []models.Resource, assignedPartitions []string) {
 	for i, resource := range resources {
-		err, str := resource.GetOwnerNodeForPartitionerId(partitionerId)
-		shouldBeNil(t, err)
+		str := resource.GetOwnerNodeForPartitionerId(partitionerId)
 		shouldBeTrue(t, assignedPartitions[i] == str)
 	}
 }
