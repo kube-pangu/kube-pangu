@@ -2,7 +2,6 @@ package kubepartitioner
 
 import (
 	"context"
-	"fmt"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/client-go/discovery"
 	"k8s.io/client-go/rest"
@@ -44,7 +43,6 @@ func (k *kubeResourceClient) QueryResources() ([]models.Resource, error) {
 			return nil, err
 		}
 
-		fmt.Println(mapping.Resource)
 		list, err := k.dynamicClient.Resource(mapping.Resource).List(context.Background(), v1.ListOptions{})
 		if err != nil {
 			return nil, err

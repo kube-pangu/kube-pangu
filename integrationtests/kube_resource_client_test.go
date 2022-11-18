@@ -49,3 +49,9 @@ func shouldBeNil(t *testing.T, obj interface{}) {
 		t.Error(fmt.Sprintf("\"%v\" should be Nil", obj))
 	}
 }
+
+func shouldNotBeNil(t *testing.T, obj interface{}) {
+	if obj == nil {
+		t.Error(fmt.Sprintf("\"%v\" should not be Nil", obj))
+	}
+}

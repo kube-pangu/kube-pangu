@@ -55,7 +55,7 @@ func (p *ConsistentHashPartitioner) DoPartition() error {
 	for _, resource := range resources {
 		err, partitionKey := resource.GetResourcePartitionKeyForPartitionerId(p.partitionerId)
 		if err != nil {
-			return err
+			continue
 		}
 		point := p.hashFunc(partitionKey)
 
