@@ -1,0 +1,21 @@
+apiVersion: "kubepartitions.io/v1alpha1"
+kind: Configuration
+metadata:
+  name: my-partition-configuration
+spec:
+  targetGroupVersionKinds:
+    - group: "g1"
+      version: "v1"
+      kind: "k1"
+    - group: "g2"
+      version: "v2"
+      kind: "k2"
+---
+apiVersion: "kubepartitions.io/v1alpha1"
+kind: Node
+metadata:
+  name: node1
+spec:
+  configurationName: "my-partition-configuration"
+  seeds: [0.7, 0.3, 0.89]
+

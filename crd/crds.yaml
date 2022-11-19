@@ -1,0 +1,62 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: configurations.kubepartitions.io
+spec:
+  group: kubepartitions.io
+  versions:
+    - name: v1alpha1
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                targetGroupVersionKinds:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      group:
+                        type: string
+                      version:
+                        type: string
+                      kind:
+                        type: string
+  scope: Cluster
+  names:
+    plural: configurations
+    singular: configuration
+    kind: Configuration
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: nodes.kubepartitions.io
+spec:
+  group: kubepartitions.io
+  versions:
+    - name: v1alpha1
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                configurationName:
+                  type: string
+                seeds:
+                  type: array
+                  items:
+                    type: number
+  scope: Cluster
+  names:
+    plural: nodes
+    singular: node
+    kind: Node
