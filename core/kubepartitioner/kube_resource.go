@@ -28,6 +28,7 @@ func NewKubeResource(resource *unstructured.Unstructured, config *rest.Config, d
 
 func (k *KubeResource) GetResourcePartitionKeyForPartitionerId(partitionerId string) (error, string) {
 	annotationsMap := k.resource.GetAnnotations()
+
 	val, ok := annotationsMap[fmt.Sprintf("partition-key-partitioner-%s", partitionerId)]
 	if !ok {
 		return fmt.Errorf("partition key not defined for the partitioner"), ""

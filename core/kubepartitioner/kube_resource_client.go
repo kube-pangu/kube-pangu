@@ -52,7 +52,9 @@ func (k *kubeResourceClient) QueryResources() ([]models.Resource, error) {
 
 	var resources []models.Resource
 	for _, unstructuredObject := range unstructuredList {
-		resources = append(resources, NewKubeResource(&unstructuredObject, k.config, k.dynamicClient))
+		var innerUnstructuredObject unstructured.Unstructured
+		unstructuredObject.DeepCopyInto(&innerUnstructuredObject)
+		resources = append(resources, NewKubeResource(&innerUnstructuredObject, k.config, k.dynamicClient))
 	}
 	return resources, nil
 }
